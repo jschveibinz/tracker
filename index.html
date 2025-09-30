@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habit Tracker</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="description" content="Track your daily habits with completion rates and progress visualization">
+    <meta name="theme-color" content="#5D5CDE">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Habit Tracker">
+    
+    <!-- Icons for PWA -->
+    <link rel="apple-touch-icon" sizes="180x180" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgdmlld0JveD0iMCAwIDE4MCAxODAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxODAiIGhlaWdodD0iMTgwIiByeD0iNDAiIGZpbGw9IiM1RDVDREUiLz4KPHN2ZyB4PSI0MCIgeT0iNDAiIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMjQgMjQiIGZpbGw9IndoaXRlIj4KPHA+aCByeXN0YWw9IjEyIDEyIDUgNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPHA+ath9igZkhlk0byIgZD0ibTkgMTIgMiAyIDQtNCIvPgo8L3N2Zz4KPC9zdmc+">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iOCIgZmlsbD0iIzVENUNERSIvPgo8cGF0aCBkPSJtOCAxNiA0IDQgOC04IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L3N2Zz4=">
+    
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiSGFiaXQgVHJhY2tlciIsInNob3J0X25hbWUiOiJIYWJpdHMiLCJkZXNjcmlwdGlvbiI6IlRyYWNrIHlvdXIgZGFpbHkgaGFiaXRzIHdpdGggY29tcGxldGlvbiByYXRlcyBhbmQgcHJvZ3Jlc3MgdmlzdWFsaXphdGlvbiIsInN0YXJ0X3VybCI6Ii8iLCJkaXNwbGF5Ijoic3RhbmRhbG9uZSIsImJhY2tncm91bmRfY29sb3IiOiIjZmZmZmZmIiwidGhlbWVfY29sb3IiOiIjNUQ1Q0RFIiwiaWNvbnMiOlt7InNyYyI6ImRhdGE6aW1hZ2Uvc3ZnK3htbDtiYXNlNjQsUEhOMlp5QjNhV1IwYUQwaU1UZ3dJaUJvWldsbmFIUTlJakU0TUNJZ2RtbGxkMEp2ZUQwaU1DQXdJREU0TUNJZ01UZ3dJaUJtYVd4c1BTSnViMjVsSWlCNGJXeHVjejBpYUhSMGNEb3ZMM2QzZHk1M015NXZjbWN2TWpBd01DOXpkbWNpUGdvOGNtVmpkQ0IzYVdSMGFEMGlNVGd3SWlCb1pXbG5hSFE5SWpFNE1DSWdjbmc5SWpRd0lpQm1hV3hzUFNJak5VUTFRMFJGSWk4K0NqeHpkbWNnZUQwaU5EQWlJSGs5SWpRd0lpQjNhV1IwYUQwaU1UQXdJaUJvWldsbmFIUTlJakV3TUNJZ2RtbGxkMEp2ZUQwaU1DQXdJakkwSURJMElpQm1hV3hzUFNKM2FHbDBaU0krQ2p4d1lYUm9JR1E5SW0xNUlERXlJREV5UTVJZ05TSWdabWxzYkQwaWJtOXVaU0lnYzNSeWIydGxQU0ozYUdsMFpTSWdjM1J5YjJ0bExYZHBaSFJvUFNJeUlpQnpkSEp2YTJVdGJHbHVaV05oY0QwaWNtOTFibVFpSUhOMGNtOXJaUzFzYVc1bGFtOXBiajBpY205MWJtUWlMejRLUEhCaGRHZ2daRDBpYlRrZ01USWdNaUF5SURRZ05DSWdkSEp2YTJVOUluZG9hWFJsSWk4K0Nqd3ZjM1puUGdvOEwzTjJaejQ9IiwidHlwZSI6ImltYWdlL3N2Zyt4bWwiLCJzaXplcyI6IjE4MHgxODAifSx7InNyYyI6ImRhdGE6aW1hZ2Uvc3ZnK3htbDtiYXNlNjQsUEhOMlp5QjNhV1IwYUQwaU16SWlJR2hsYVdkb2REMGlNeklpSUhacFpYZENiM2c5SWpBZ01DQXpNaUF6TWlJZ1ptbHNiRDBpYm05dVpTSWdlRzFzYm5NOUltaDBkSEE2THk5M2QzY3Vkek11YjNKbkx6SXdNREF2YzNabklqNEtQSEpsWTNRZ2QybGtkR2c5SWpNeUlpQm9aV2xuYUhROUlqTXlJaUJ5ZUQwaU9DSWdabWxzYkQwaUl6VkVOVU5FUlNJdlBnbzhjR0YwYUNCa1BTSnRPQ0F4TmlBMElEUWdPQ0E0SWlCemRISnZhMlU5SW5kb2FYUmxJaUJ6ZEhKdmEyVXRkMmxrZEdnOUlqSWlJSE4wY205clpTMXNhVzVsWTJGd1BTSnliM1Z1WkNJZ2MzUnliMnRsTFd4cGJtVnFiMmx1UFNKeWIzVnVaQ0l2UGdvOEwzTjJaejQ9IiwidHlwZSI6ImltYWdlL3N2Zyt4bWwiLCJzaXplcyI6IjMxMngzMTIifV19">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#5D5CDE',
+                        'primary-dark': '#4B4BC7'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-white min-h-screen">
+    <!-- Install Banner -->
+    <div id="install-banner" class="bg-blue-50 dark:bg-blue-900 border-l-4 border-blue-400 p-4 mb-4 hidden">
+        <div class="flex items-center justify-between">
+            <div class="ml-3">
+                <p class="text-sm text-blue-700 dark:text-blue-200">
+                    <strong>Install App:</strong> Add this to your home screen for the best experience!
+                </p>
+            </div>
+            <div class="flex space-x-2">
+                <button onclick="installApp()" class="text-blue-700 dark:text-blue-200 hover:text-blue-900 dark:hover:text-blue-100 text-sm font-medium">
+                    Install
+                </button>
+                <button onclick="hideInstallBanner()" class="text-blue-700 dark:text-blue-200 hover:text-blue-900 dark:hover:text-blue-100">
+                    ×
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Data Status Banner -->
+    <div class="bg-green-50 dark:bg-green-900 border-l-4 border-green-400 p-4 mb-4">
+        <div class="flex items-center justify-between">
+            <div class="ml-3">
+                <p class="text-sm text-green-700 dark:text-green-200">
+                    <strong>Data saved locally!</strong> Your progress is automatically stored in your browser.
+                </p>
+            </div>
+            <button onclick="showDataMenu()" class="text-green-700 dark:text-green-200 hover:text-green-900 dark:hover:text-green-100">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Data Management Modal -->
+    <div id="data-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-sm w-full mx-4">
+            <h3 class="text-lg font-bold mb-4">Data Management</h3>
+            <div class="space-y-3">
+                <button onclick="exportData()" class="w-full px-4 py-2 bg-blue-500 text-white hover:bg-blue-600 rounded">
+                    Export Data to File
+                </button>
+                <button onclick="document.getElementById('import-file').click()" class="w-full px-4 py-2 bg-green-500 text-white hover:bg-green-600 rounded">
+                    Import Data from File
+                </button>
+                <button onclick="clearAllData()" class="w-full px-4 py-2 bg-red-500 text-white hover:bg-red-600 rounded">
+                    Clear All Data
+                </button>
+                <button onclick="hideDataMenu()" class="w-full px-4 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded">
+                    Cancel
+                </button>
+            </div>
+            <input type="file" id="import-file" accept=".json" style="display: none" onchange="importData(event)">
+        </div>
+    </div>
+
+    <div class="max-w-md mx-auto bg-white dark:bg-gray-900">
+        <!-- Header -->
+        <header class="bg-primary text-white p-4 rounded-t-lg">
+            <h1 class="text-xl font-bold text-center">Habit Tracker</h1>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="bg-gray-100 dark:bg-gray-800 px-4 py-2">
+            <div class="flex justify-around">
+                <button onclick="showView('dashboard')" id="nav-dashboard" class="nav-btn px-4 py-2 rounded text-sm font-medium">Dashboard</button>
+                <button onclick="showView('track')" id="nav-track" class="nav-btn px-4 py-2 rounded text-sm font-medium">Track</button>
+                <button onclick="showView('add')" id="nav-add" class="nav-btn px-4 py-2 rounded text-sm font-medium">Add Item</button>
+            </div>
+        </nav>
+
+        <!-- Dashboard View -->
+        <div id="dashboard-view" class="view p-4">
+            <div class="mb-4">
+                <label class="block text-sm font-medium mb-2">Time Period</label>
+                <select id="period-select" onchange="updateDashboard()" class="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-base">
+                    <option value="daily">Daily Tasks</option>
+                    <option value="weekly">Weekly Tasks</option>
+                    <option value="monthly">Monthly Tasks</option>
+                    <option value="yearly">Yearly Tasks</option>
+                </select>
+            </div>
+
+            <div id="stats-container" class="space-y-4">
+                <!-- Stats will be inserted here -->
+            </div>
+        </div>
+
+        <!-- Track View -->
+        <div id="track-view" class="view p-4 hidden">
+            <h2 class="text-xl font-semibold mb-4">Today's Tracking</h2>
+            <div id="tracking-items" class="space-y-4">
+                <!-- Tracking items will be inserted here -->
+            </div>
+        </div>
+
+        <!-- Add Item View -->
+        <div id="add-view" class="view p-4 hidden">
+            <h2 class="text-xl font-semibold mb-4">Add New Tracking Item</h2>
+            <form id="add-item-form" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium mb-2">Item Name</label>
+                    <input type="text" id="item-name" required class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-base" placeholder="e.g., Drink 8 glasses of water">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2">Type</label>
+                    <select id="item-type" class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-base">
+                        <option value="completion">Completion (Yes/No)</option>
+                        <option value="quantity">Quantity (Number)</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium mb-2">Frequency</label>
+                    <select id="item-frequency" class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-base">
+                        <option value="daily">Daily</option>
+                        <option value="weekly">Weekly</option>
+                        <option value="monthly">Monthly</option>
+                        <option value="yearly">Yearly</option>
+                    </select>
+                </div>
+
+                <div id="target-container" class="hidden">
+                    <label class="block text-sm font-medium mb-2" id="target-label">Target (for quantity items)</label>
+                    <input type="number" id="item-target" min="1" class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-base" placeholder="e.g., 8">
+                </div>
+
+                <button type="submit" class="w-full bg-primary hover:bg-primary-dark text-white font-bold py-3 px-4 rounded-lg transition duration-200">
+                    Add Item
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // PWA Installation
+        let deferredPrompt;
+        
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('install-banner').classList.remove('hidden');
+        });
+
+        function installApp() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((result) => {
+                    if (result.outcome === 'accepted') {
+                        hideInstallBanner();
+                    }
+                    deferredPrompt = null;
+                });
+            }
+        }
+
+        function hideInstallBanner() {
+            document.getElementById('install-banner').classList.add('hidden');
+        }
+
+        // Register Service Worker for offline functionality
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                const swCode = `
+                    const CACHE_NAME = 'habit-tracker-v1';
+                    const urlsToCache = ['/'];
+
+                    self.addEventListener('install', (event) => {
+                        event.waitUntil(
+                            caches.open(CACHE_NAME)
+                                .then((cache) => cache.addAll(urlsToCache))
+                        );
+                    });
+
+                    self.addEventListener('fetch', (event) => {
+                        event.respondWith(
+                            caches.match(event.request)
+                                .then((response) => {
+                                    if (response) {
+                                        return response;
+                                    }
+                                    return fetch(event.request);
+                                }
+                            )
+                        );
+                    });
+                `;
+                
+                const blob = new Blob([swCode], { type: 'application/javascript' });
+                const swUrl = URL.createObjectURL(blob);
+                
+                navigator.serviceWorker.register(swUrl)
+                    .then(() => console.log('SW registered'))
+                    .catch(() => console.log('SW registration failed'));
+            });
+        }
+
+        // Dark mode setup
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+        }
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+            if (event.matches) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        });
+
+        // Data storage with localStorage
+        let trackingItems = [];
+        let trackingData = {}; // Format: { date: { itemId: value } }
+
+        // Check localStorage availability
+        function isLocalStorageAvailable() {
+            try {
+                const test = '__localStorage_test__';
+                localStorage.setItem(test, test);
+                localStorage.removeItem(test);
+                return true;
+            } catch (e) {
+                return false;
+            }
+        }
+
+        // Local storage functions
+        function saveData() {
+            if (!isLocalStorageAvailable()) {
+                console.warn('localStorage not available, data will not persist');
+                return;
+            }
+            
+            try {
+                localStorage.setItem('habitTracker_items', JSON.stringify(trackingItems));
+                localStorage.setItem('habitTracker_data', JSON.stringify(trackingData));
+                console.log('Data saved to localStorage');
+            } catch (e) {
+                console.error('Failed to save data:', e);
+                if (document.body) {
+                    showNotification('Failed to save data locally', 'error');
+                }
+            }
+        }
+
+        function loadData() {
+            initializeDefaultItems();
+            trackingData = {};
+            
+            if (!isLocalStorageAvailable()) {
+                console.warn('localStorage not available, using default data');
+                return;
+            }
+            
+            try {
+                const savedItems = localStorage.getItem('habitTracker_items');
+                const savedData = localStorage.getItem('habitTracker_data');
+                
+                if (savedItems && savedItems !== 'undefined' && savedItems !== 'null' && savedItems.trim()) {
+                    try {
+                        const parsedItems = JSON.parse(savedItems);
+                        if (Array.isArray(parsedItems) && parsedItems.length > 0) {
+                            const validItems = parsedItems.filter(item => 
+                                item && typeof item === 'object' && 
+                                item.id && item.name && item.type && item.frequency
+                            );
+                            if (validItems.length > 0) {
+                                trackingItems = validItems;
+                            }
+                        }
+                    } catch (itemError) {
+                        console.warn('Corrupted items data, using defaults:', itemError);
+                    }
+                }
+                
+                if (savedData && savedData !== 'undefined' && savedData !== 'null' && savedData.trim()) {
+                    try {
+                        const parsedData = JSON.parse(savedData);
+                        if (typeof parsedData === 'object' && parsedData !== null && !Array.isArray(parsedData)) {
+                            trackingData = parsedData;
+                        }
+                    } catch (dataError) {
+                        console.warn('Corrupted tracking data, starting fresh:', dataError);
+                        trackingData = {};
+                    }
+                }
+                
+                console.log('Data loaded successfully');
+            } catch (e) {
+                console.error('Error loading data:', e);
+            }
+        }
+
+        function initializeDefaultItems() {
+            trackingItems = [
+                {
+                    id: 1,
+                    name: "Exercise",
+                    type: "completion",
+                    frequency: "daily",
+                    target: null,
+                    created: new Date().toISOString()
+                },
+                {
+                    id: 2,
+                    name: "Drink Water",
+                    type: "quantity",
+                    frequency: "daily",
+                    target: 8,
+                    created: new Date().toISOString()
+                }
+            ];
+        }
+
+        // Data management functions
+        function showDataMenu() {
+            document.getElementById('data-modal').classList.remove('hidden');
+        }
+
+        function hideDataMenu() {
+            document.getElementById('data-modal').classList.add('hidden');
+        }
+
+        function exportData() {
+            const exportData = {
+                items: trackingItems,
+                data: trackingData,
+                exportDate: new Date().toISOString(),
+                version: "1.0"
+            };
+            
+            const dataStr = JSON.stringify(exportData, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(dataBlob);
+            link.download = `habit-tracker-backup-${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+            
+            hideDataMenu();
+            showNotification('Data exported successfully!', 'success');
+        }
+
+        function importData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const importedData = JSON.parse(e.target.result);
+                    
+                    if (importedData.items && importedData.data) {
+                        trackingItems = importedData.items;
+                        trackingData = importedData.data;
+                        saveData();
+                        
+                        const currentView = document.querySelector('.view:not(.hidden)').id.replace('-view', '');
+                        showView(currentView);
+                        
+                        hideDataMenu();
+                        showNotification('Data imported successfully!', 'success');
+                    } else {
+                        showNotification('Invalid file format', 'error');
+                    }
+                } catch (error) {
+                    showNotification('Failed to import data: ' + error.message, 'error');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        function clearAllData() {
+            showConfirmDialog('Are you sure you want to clear all data? This cannot be undone.', () => {
+                trackingItems = [];
+                trackingData = {};
+                saveData();
+                hideDataMenu();
+                showView('add');
+                showNotification('All data cleared', 'success');
+            });
+        }
+
+        // Notification system
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 p-4 rounded-lg shadow-lg z-50 ${
+                type === 'success' ? 'bg-green-500' : 
+                type === 'error' ? 'bg-red-500' : 'bg-blue-500'
+            } text-white`;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Custom confirm dialog
+        function showConfirmDialog(message, onConfirm) {
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            
+            const modalContent = document.createElement('div');
+            modalContent.className = 'bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-sm w-full mx-4';
+            
+            const messageEl = document.createElement('p');
+            messageEl.className = 'text-gray-700 dark:text-gray-300 mb-4';
+            messageEl.textContent = message;
+            
+            const buttonContainer = document.createElement('div');
+            buttonContainer.className = 'flex justify-end space-x-3';
+            
+            const cancelBtn = document.createElement('button');
+            cancelBtn.className = 'px-4 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded';
+            cancelBtn.textContent = 'Cancel';
+            cancelBtn.onclick = () => modal.remove();
+            
+            const confirmBtn = document.createElement('button');
+            confirmBtn.className = 'px-4 py-2 bg-red-500 text-white hover:bg-red-600 rounded';
+            confirmBtn.textContent = 'Confirm';
+            confirmBtn.onclick = () => {
+                modal.remove();
+                if (onConfirm) onConfirm();
+            };
+            
+            buttonContainer.appendChild(cancelBtn);
+            buttonContainer.appendChild(confirmBtn);
+            modalContent.appendChild(messageEl);
+            modalContent.appendChild(buttonContainer);
+            modal.appendChild(modalContent);
+            
+            document.body.appendChild(modal);
+        }
+
+        // Navigation
+        function showView(viewName) {
+            document.querySelectorAll('.view').forEach(view => view.classList.add('hidden'));
+            document.getElementById(viewName + '-view').classList.remove('hidden');
+            
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('bg-primary', 'text-white');
+                btn.classList.add('text-gray-600', 'dark:text-gray-300');
+            });
+            document.getElementById('nav-' + viewName).classList.add('bg-primary', 'text-white');
+            document.getElementById('nav-' + viewName).classList.remove('text-gray-600', 'dark:text-gray-300');
+
+            if (viewName === 'dashboard') updateDashboard();
+            if (viewName === 'track') updateTrackingView();
+        }
+
+        // Helper functions
+        function getTodayString() {
+            return new Date().toISOString().split('T')[0];
+        }
+
+        function getWeekStart(date) {
+            const d = new Date(date);
+            const day = d.getDay();
+            const diff = d.getDate() - day;
+            return new Date(d.setDate(diff)).toISOString().split('T')[0];
+        }
+
+        function getMonthStart(date) {
+            const d = new Date(date);
+            return new Date(d.getFullYear(), d.getMonth(), 1).toISOString().split('T')[0];
+        }
+
+        function getDatesInRange(startDate, endDate) {
+            const dates = [];
+            const currentDate = new Date(startDate);
+            const end = new Date(endDate);
+            
+            while (currentDate <= end) {
+                dates.push(currentDate.toISOString().split('T')[0]);
+                currentDate.setDate(currentDate.getDate() + 1);
+            }
+            return dates;
+        }
+
+        // Dashboard functions
+        function updateDashboard() {
+            const period = document.getElementById('period-select').value;
+            const stats = calculateStats(period);
+            
+            // Force clear the container and rebuild
+            const container = document.getElementById('stats-container');
+            container.innerHTML = '';
+            
+            // Small delay to ensure DOM clears
+            setTimeout(() => {
+                displayStats(stats);
+            }, 10);
+        }
+
+        function calculateStats(period) {
+            const today = getTodayString();
+            const itemStats = {};
+            
+            // Filter items to only show those matching the selected frequency
+            const filteredItems = trackingItems.filter(item => item.frequency === period);
+            
+            filteredItems.forEach(item => {
+                let percentage = 0;
+                let completed = 0;
+                let total = 1;
+                let currentValue = null;
+                
+                if (item.frequency === 'daily') {
+                    // For daily items, show today's progress
+                    const todayValue = trackingData[today]?.[item.id];
+                    
+                    if (item.type === 'completion') {
+                        percentage = todayValue === true ? 100 : 0;
+                        completed = todayValue === true ? 1 : 0;
+                        total = 1;
+                    } else {
+                        const current = todayValue || 0;
+                        const target = item.target || 1;
+                        percentage = Math.round(Math.min((current / target) * 100, 100));
+                        completed = current >= target ? 1 : 0;
+                        total = 1;
+                        currentValue = current;
+                    }
+                }
+                
+                else if (item.frequency === 'weekly') {
+                    // For weekly items, check if completed this week
+                    const weekStart = getWeekStart(today);
+                    const weekDates = getDatesInRange(weekStart, today);
+                    
+                    let weekCompleted = false;
+                    let weekValue = 0;
+                    
+                    for (const date of weekDates) {
+                        const value = trackingData[date]?.[item.id];
+                        if (item.type === 'completion' && value === true) {
+                            weekCompleted = true;
+                            break;
+                        } else if (item.type === 'quantity' && value) {
+                            weekValue += value;
+                        }
+                    }
+                    
+                    if (item.type === 'completion') {
+                        percentage = weekCompleted ? 100 : 0;
+                        completed = weekCompleted ? 1 : 0;
+                        total = 1;
+                    } else {
+                        const target = item.target || 1;
+                        percentage = Math.round(Math.min((weekValue / target) * 100, 100));
+                        completed = weekValue >= target ? 1 : 0;
+                        total = 1;
+                        currentValue = weekValue;
+                    }
+                }
+                
+                else if (item.frequency === 'monthly') {
+                    // For monthly items, check if completed this month
+                    const monthStart = getMonthStart(today);
+                    const monthDates = getDatesInRange(monthStart, today);
+                    
+                    let monthCompleted = false;
+                    let monthValue = 0;
+                    
+                    for (const date of monthDates) {
+                        const value = trackingData[date]?.[item.id];
+                        if (item.type === 'completion' && value === true) {
+                            monthCompleted = true;
+                            break;
+                        } else if (item.type === 'quantity' && value) {
+                            monthValue += value;
+                        }
+                    }
+                    
+                    if (item.type === 'completion') {
+                        percentage = monthCompleted ? 100 : 0;
+                        completed = monthCompleted ? 1 : 0;
+                        total = 1;
+                    } else {
+                        const target = item.target || 1;
+                        percentage = Math.round(Math.min((monthValue / target) * 100, 100));
+                        completed = monthValue >= target ? 1 : 0;
+                        total = 1;
+                        currentValue = monthValue;
+                    }
+                }
+                
+                else if (item.frequency === 'yearly') {
+                    // For yearly items, check if completed this year
+                    const yearStart = new Date(new Date().getFullYear(), 0, 1).toISOString().split('T')[0];
+                    const yearDates = getDatesInRange(yearStart, today);
+                    
+                    let yearCompleted = false;
+                    let yearValue = 0;
+                    
+                    for (const date of yearDates) {
+                        const value = trackingData[date]?.[item.id];
+                        if (item.type === 'completion' && value === true) {
+                            yearCompleted = true;
+                            break;
+                        } else if (item.type === 'quantity' && value) {
+                            yearValue += value;
+                        }
+                    }
+                    
+                    if (item.type === 'completion') {
+                        percentage = yearCompleted ? 100 : 0;
+                        completed = yearCompleted ? 1 : 0;
+                        total = 1;
+                    } else {
+                        const target = item.target || 1;
+                        percentage = Math.round(Math.min((yearValue / target) * 100, 100));
+                        completed = yearValue >= target ? 1 : 0;
+                        total = 1;
+                        currentValue = yearValue;
+                    }
+                }
+                
+                itemStats[item.id] = {
+                    name: item.name,
+                    type: item.type,
+                    frequency: item.frequency,
+                    completed: completed,
+                    total: total,
+                    percentage: percentage,
+                    currentValue: currentValue,
+                    target: item.target
+                };
+            });
+            
+            return { itemStats, dates: [], period };
+        }
+
+        function isItemActiveOnDate(item, date) {
+            const itemDate = new Date(item.created.split('T')[0]);
+            const checkDate = new Date(date);
+            return checkDate >= itemDate;
+        }
+
+        function displayStats(stats) {
+            const container = document.getElementById('stats-container');
+            container.innerHTML = '';
+
+            if (Object.keys(stats.itemStats).length === 0) {
+                container.innerHTML = `<p class="text-gray-500 text-center py-8">No ${stats.period} items yet. Add some ${stats.period} items to get started!</p>`;
+                return;
+            }
+
+            Object.values(stats.itemStats).forEach((stat, index) => {
+                const statCard = document.createElement('div');
+                statCard.className = 'bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700';
+                
+                // Generate context-appropriate completion text
+                const completionText = getCompletionText(stat, stats.period);
+                
+                // Create progress bar with percentage directly set
+                statCard.innerHTML = `
+                    <div class="flex justify-between items-center mb-2">
+                        <h4 class="font-semibold">${stat.name}</h4>
+                        <span class="text-lg font-bold ${stat.percentage >= 80 ? 'text-green-600' : stat.percentage >= 50 ? 'text-yellow-600' : 'text-red-600'}">${stat.percentage}%</span>
+                    </div>
+                    <div class="flex justify-between text-sm text-gray-600 dark:text-gray-400">
+                        <span>${completionText}</span>
+                        <span class="capitalize">${stat.frequency}</span>
+                    </div>
+                    <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 mt-2">
+                        <div class="bg-primary h-2 rounded-full" style="width: ${stat.percentage}%; transition: width 0.3s ease;"></div>
+                    </div>
+                `;
+                
+                container.appendChild(statCard);
+            });
+        }
+
+        function getCompletionText(stat, period) {
+            // For quantity items, show current progress
+            if (stat.type === 'quantity' && stat.currentValue !== null) {
+                const periodText = {
+                    'daily': 'today',
+                    'weekly': 'this week',
+                    'monthly': 'this month',
+                    'yearly': 'this year'
+                };
+                return `${stat.currentValue}/${stat.target || 1} ${periodText[period] || ''}`;
+            }
+            
+            // For completion items
+            const completionText = {
+                'daily': stat.completed ? 'Completed today' : 'Not completed today',
+                'weekly': stat.completed ? 'Completed this week' : 'Not completed this week',
+                'monthly': stat.completed ? 'Completed this month' : 'Not completed this month',
+                'yearly': stat.completed ? 'Completed this year' : 'Not completed this year'
+            };
+            
+            return completionText[period] || `${stat.completed}/${stat.total}`;
+        }
+
+        // Tracking view functions
+        function updateTrackingView() {
+            const container = document.getElementById('tracking-items');
+            const today = getTodayString();
+            
+            container.innerHTML = '';
+
+            if (trackingItems.length === 0) {
+                container.innerHTML = '<p class="text-gray-500 text-center py-8">No tracking items yet. Add some items to get started!</p>';
+                return;
+            }
+
+            trackingItems.forEach(item => {
+                if (!isItemActiveOnDate(item, today)) return;
+
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700';
+                
+                const currentValue = trackingData[today]?.[item.id] || (item.type === 'completion' ? false : 0);
+                
+                if (item.type === 'completion') {
+                    itemDiv.innerHTML = `
+                        <div class="flex justify-between items-center">
+                            <span class="font-medium">${item.name}</span>
+                            <button onclick="toggleCompletion(${item.id})" class="px-4 py-2 rounded-lg font-medium ${
+                                currentValue ? 'bg-green-500 text-white' : 'bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-300'
+                            }">
+                                ${currentValue ? '✓ Done' : 'Mark Done'}
+                            </button>
+                        </div>
+                    `;
+                } else {
+                    itemDiv.innerHTML = `
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center">
+                                <span class="font-medium">${item.name}</span>
+                                <span class="text-sm text-gray-600 dark:text-gray-400">Target: ${item.target || 1}</span>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <button onclick="updateQuantity(${item.id}, ${currentValue - 1})" class="w-8 h-8 bg-gray-300 dark:bg-gray-600 rounded-full flex items-center justify-center">-</button>
+                                <input type="number" id="quantity-${item.id}" value="${currentValue}" onchange="updateQuantity(${item.id}, this.value)" class="w-20 p-2 text-center border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-base">
+                                <button onclick="updateQuantity(${item.id}, ${currentValue + 1})" class="w-8 h-8 bg-gray-300 dark:bg-gray-600 rounded-full flex items-center justify-center">+</button>
+                            </div>
+                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                                <div class="bg-primary h-2 rounded-full" style="width: ${Math.min(100, (currentValue / (item.target || 1)) * 100)}%"></div>
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                container.appendChild(itemDiv);
+            });
+        }
+
+        function toggleCompletion(itemId) {
+            const today = getTodayString();
+            if (!trackingData[today]) trackingData[today] = {};
+            
+            trackingData[today][itemId] = !trackingData[today][itemId];
+            saveData();
+            updateTrackingView();
+            updateDashboard();
+        }
+
+        function updateQuantity(itemId, value) {
+            const today = getTodayString();
+            if (!trackingData[today]) trackingData[today] = {};
+            
+            const numValue = Math.max(0, parseInt(value) || 0);
+            trackingData[today][itemId] = numValue;
+            
+            document.getElementById(`quantity-${itemId}`).value = numValue;
+            saveData();
+            updateTrackingView();
+            updateDashboard();
+        }
+
+        // Form setup
+        function setupEventListeners() {
+            try {
+                // Set up item type change listener
+                const itemTypeEl = document.getElementById('item-type');
+                if (itemTypeEl) {
+                    // Add event listener for dropdown change
+                    itemTypeEl.addEventListener('change', function() {
+                        toggleTargetContainer();
+                        updateTargetLabel();
+                    });
+                    
+                    // Also check initial state
+                    toggleTargetContainer();
+                    updateTargetLabel();
+                }
+
+                // Set up frequency change listener to update target label
+                const frequencyEl = document.getElementById('item-frequency');
+                if (frequencyEl) {
+                    frequencyEl.addEventListener('change', function() {
+                        updateTargetLabel();
+                    });
+                }
+                
+                // Function to show/hide target container
+                function toggleTargetContainer() {
+                    const itemTypeEl = document.getElementById('item-type');
+                    const targetContainer = document.getElementById('target-container');
+                    
+                    if (itemTypeEl && targetContainer) {
+                        if (itemTypeEl.value === 'quantity') {
+                            targetContainer.classList.remove('hidden');
+                        } else {
+                            targetContainer.classList.add('hidden');
+                        }
+                    }
+                }
+
+                // Function to update the target label based on frequency
+                function updateTargetLabel() {
+                    const frequencyEl = document.getElementById('item-frequency');
+                    const targetLabel = document.getElementById('target-label');
+                    const targetInput = document.getElementById('item-target');
+                    
+                    if (frequencyEl && targetLabel && targetInput) {
+                        const frequency = frequencyEl.value;
+                        const frequencyMap = {
+                            'daily': { label: 'Daily Target', placeholder: 'e.g., 8 glasses per day' },
+                            'weekly': { label: 'Weekly Target', placeholder: 'e.g., 5 workouts per week' },
+                            'monthly': { label: 'Monthly Target', placeholder: 'e.g., 2 books per month' },
+                            'yearly': { label: 'Yearly Target', placeholder: 'e.g., 12 courses per year' }
+                        };
+                        
+                        const config = frequencyMap[frequency] || frequencyMap['daily'];
+                        targetLabel.textContent = config.label + ' (for quantity items)';
+                        targetInput.placeholder = config.placeholder;
+                    }
+                }
+
+                const formEl = document.getElementById('add-item-form');
+                if (formEl) {
+                    formEl.addEventListener('submit', function(e) {
+                        e.preventDefault();
+                        
+                        const nameEl = document.getElementById('item-name');
+                        const typeEl = document.getElementById('item-type');
+                        const frequencyEl = document.getElementById('item-frequency');
+                        const targetEl = document.getElementById('item-target');
+                        
+                        if (!nameEl || !typeEl || !frequencyEl) {
+                            showNotification('Form elements not found', 'error');
+                            return;
+                        }
+                        
+                        const name = nameEl.value.trim();
+                        const type = typeEl.value;
+                        const frequency = frequencyEl.value;
+                        const target = type === 'quantity' && targetEl ? parseInt(targetEl.value) || 1 : null;
+                        
+                        if (!name) {
+                            showNotification('Please enter an item name', 'error');
+                            return;
+                        }
+                        
+                        const newItem = {
+                            id: Date.now(),
+                            name: name,
+                            type: type,
+                            frequency: frequency,
+                            target: target,
+                            created: new Date().toISOString()
+                        };
+                        
+                        trackingItems.push(newItem);
+                        saveData();
+                        
+                        this.reset();
+                        const targetContainer = document.getElementById('target-container');
+                        if (targetContainer) {
+                            targetContainer.classList.add('hidden');
+                        }
+                        
+                        showNotification('Item added successfully!', 'success');
+                        showView('track');
+                    });
+                }
+            } catch (error) {
+                console.error('Error setting up event listeners:', error);
+            }
+        }
+
+        // Initialize app
+        function initializeApp() {
+            try {
+                loadData();
+                setupEventListeners();
+                showView('dashboard');
+                console.log('App initialized successfully');
+            } catch (error) {
+                console.error('App initialization error:', error);
+                document.body.innerHTML = `
+                    <div class="p-8 text-center max-w-md mx-auto">
+                        <h1 class="text-2xl font-bold mb-4 text-gray-800">Habit Tracker</h1>
+                        <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
+                            <p class="text-red-700 mb-2">Sorry, there was an error loading the app.</p>
+                            <p class="text-sm text-red-600">Please refresh the page to try again.</p>
+                        </div>
+                        <button onclick="location.reload()" class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+                            Reload Page
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        // Start app when ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeApp);
+        } else {
+            setTimeout(initializeApp, 100);
+        }
+    </script>
+</body>
+</html>
